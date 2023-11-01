@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Jobs\SendInvoice;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -46,5 +47,21 @@ class User extends Authenticatable
     public function subscription()
     {
         return Subscription::query()->where('user_id', $this->id)->first();
+    }
+
+    public function sendLatestInvoice()
+    {
+        SendInvoice::dispatch(
+            $this->subscription()->latestInvoice(),
+            $this
+        );
+    }
+
+    public function sendInvoice($invoiceId)
+    {
+        SendInvoice::dispatch(
+            $this->subscription()->invoice($invoiceId),
+            $this
+        );
     }
 }

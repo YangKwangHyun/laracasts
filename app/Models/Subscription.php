@@ -18,4 +18,8 @@ class Subscription extends Model
     public function invoice($invoiceId) {
         return $this->invoices()->where('id', $invoiceId)->first();
     }
+
+    public function latestInvoice() {
+        return $this->invoices()->latest()->first();
+    }
 }
