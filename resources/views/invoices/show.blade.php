@@ -9,19 +9,13 @@
         @if($invoice)
             <div class="card">
                 <div class="card-header">
-                    인보이스 번호: {{ $invoice->number }}
+                    인보이스 번호: {{ $invoice->id }}
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">상세 정보</h5>
-                    <p class="card-text">상태: {{ $invoice->status }}</p>
-                    <p class="card-text">통화: {{ $invoice->currency }}</p>
                     <p class="card-text">총액: {{ $invoice->total }}</p>
-                    <p class="card-text">소계: {{ $invoice->subtotal }}</p>
-                    <p class="card-text">세금: {{ $invoice->tax }}</p>
-                    <p class="card-text">세금 비율: {{ $invoice->tax_percent }}%</p>
-                    <p class="card-text">시작 잔액: {{ $invoice->starting_balance }}</p>
-                    <p class="card-text">종료 잔액: {{ $invoice->ending_balance }}</p>
-                    <p class="card-text">생성일: {{ $invoice->created_at->toDateString() }}</p>
+                    <p class="card-text">날짜: {{ $invoice->charge_date }}</p>
+                    <p class="card-text">상태: {{ $invoice->paid }}</p>
                 </div>
             </div>
         @else

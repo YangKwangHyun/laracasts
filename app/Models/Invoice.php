@@ -10,6 +10,8 @@ class Invoice extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function downloadPath()
     {
         return storage_path("app/{$this->id}.pdf");

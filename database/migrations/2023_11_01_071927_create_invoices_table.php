@@ -13,15 +13,9 @@ return new class extends Migration {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->foreignId('subscription_id')->constrained();
-            $table->string('number');
-            $table->string('status');
-            $table->string('currency');
-            $table->string('total');
-            $table->string('subtotal');
-            $table->string('tax');
-            $table->string('tax_percent');
-            $table->string('starting_balance');
-            $table->string('ending_balance');
+            $table->integer('total');
+            $table->timestamp('charge_date');
+            $table->boolean('paid');
             $table->timestamps();
         });
     }

@@ -18,15 +18,9 @@ class InvoiceFactory extends Factory
     {
         return [
             'subscription_id' => SubscriptionFactory::new(),
-            'number' => $this->faker->randomNumber(),
-            'status' => $this->faker->randomElement(['paid', 'unpaid']),
-            'currency' => $this->faker->currencyCode(),
-            'total' => $this->faker->randomFloat(2, 0, 1000),
-            'subtotal' => $this->faker->randomFloat(2, 0, 1000),
-            'tax' => $this->faker->randomFloat(2, 0, 1000),
-            'tax_percent' => $this->faker->randomFloat(2, 0, 1000),
-            'starting_balance' => $this->faker->randomFloat(2, 0, 1000),
-            'ending_balance' => $this->faker->randomFloat(2, 0, 1000),
+            'total' => $this->faker->randomNumber(4),
+            'charge_date' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'paid' => $this->faker->boolean(),
         ];
     }
 }
