@@ -28,15 +28,18 @@ class SendLastestInvoice extends Command
      */
     public function handle()
     {
-        $email = $this->ask('What is the email address for the account?');
+        tap($this->user(), function (User $user) {
+            $user->sendInvoice();
 
-        $user = User::query()->where('email', $email)->firstOrFail()->sendLatestInvoice();
-
-        $user->sendLatestInvoice();
-
-        $this->info("Invoice delivered to {$user->email}");
-
+            $this->info("Invoice delivered to {$user->email}");
+        });
 
         return 0;
+    }
+
+    protected function user(): User {
+        $email = $this->ask('What is the email address for the account?');
+
+        return User::query()->where('email', $email)->firstOrFail();
     }
 }

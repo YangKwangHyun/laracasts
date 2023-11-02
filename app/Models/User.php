@@ -49,19 +49,10 @@ class User extends Authenticatable
         return Subscription::query()->where('user_id', $this->id)->first();
     }
 
-    public function sendLatestInvoice()
+    public function sendInvoice(Invoice $invoice = null)
     {
-        SendInvoice::dispatch(
-            $this->subscription()->latestInvoice(),
-            $this
-        );
-    }
+        $invoice ??= $this->subscription()->latestInvoice();
 
-    public function sendInvoice($invoiceId)
-    {
-        SendInvoice::dispatch(
-            $this->subscription()->invoice($invoiceId),
-            $this
-        );
+        $invoice->send($this);
     }
 }

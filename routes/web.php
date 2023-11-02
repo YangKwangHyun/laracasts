@@ -28,7 +28,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/setting/subscriptions/invoices/{invoiceId}/download', \App\Http\Controllers\InvoiceDownloadsController::class)->name('subscriptions.invoices.download');
 Route::get('/setting/subscriptions/invoices/{invoiceId}', \App\Http\Controllers\InvoiceDetailController::class)->name('subscriptions.invoices.show');
 
 require __DIR__.'/auth.php';

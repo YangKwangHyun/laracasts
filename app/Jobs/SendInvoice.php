@@ -6,12 +6,10 @@ use App\Models\Invoice;
 use App\Models\User;
 use App\Notifications\InvoicePaid;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Auth;
 use Spatie\Browsershot\Browsershot;
 
 class SendInvoice implements ShouldQueue
@@ -31,21 +29,30 @@ class SendInvoice implements ShouldQueue
      */
     public function handle(): void
     {
-        Browsershot::html($this->getHtml())
-            ->showBackground()
-            ->margins(10,10,10, 10)
-            ->save($invoicePath = storage_path("app/{$this->invoice->id}.pdf"));
+        $this->sandInvoidAsPdf();
 
-        $this->user->notify(new InvoicePaid($invoicePath));
+        $this->user->notify(new InvoicePaid($this->invoice));
     }
 
     /**
      * @return string
      */
-    public function getHtml(): string
+    public function view(): string
     {
         return view('invoices.show', [
             'invoice' => $this->invoice,
         ])->render();
+    }
+
+    /**
+     * @return string
+     * @throws \Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot
+     */
+    protected function sandInvoidAsPdf(): void
+    {
+        Browsershot::html($this->view())
+            ->showBackground()
+            ->margins(10, 10, 10, 10)
+            ->save($this->invoice->downloadPath());
     }
 }
